@@ -26,8 +26,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - variant: centos
-            version: 10
           - variant: fedora
             version: 42
     container:

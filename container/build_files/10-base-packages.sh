@@ -40,19 +40,24 @@ dnf -y install --setopt=install_weak_deps=False \
     xdg-dbus-proxy \
     xdg-user-dirs
 
-# /*
-# Ignition and Cloud-Init Support
-# */
-dnf -y install \
-    ignition \
-    ignition-edge \
-    cloud-init
-
 # /* Currently missing dependencies
 # dnf -y copr enable ublue-os/staging
 # dnf -y install sanoid
 # dnf -y copr disable ublue-os/staging
 # */
+
+# /*
+# Tailscale Repo
+# */
+dnf config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+dnf config-manager setopt tailscale-stable.enabled=0
+
+dnf -y install --enablerepo='tailscale-stable' tailscale
+
+# /*
+# Install MergerFS
+# */
+/run/build_files/github-release-install.sh trapexit/mergerfs "fc$(rpm -E %fedora).$(uname -m)"
 
 # /*
 ### install packages direct from github
